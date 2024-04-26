@@ -5,14 +5,29 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Transaction } from './entities/transaction.entity';
 import { Model } from 'mongoose';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto/pagination-query.dto';
+import { CategoriesService } from 'src/categories/categories.service';
 
 @Injectable()
 export class TransactionsService {
   constructor(
     @InjectModel(Transaction.name) private transactionModel: Model<Transaction>,
+    private categoriesService: CategoriesService,
   ) {}
 
-  create(createTransactionDto: CreateTransactionDto) {
+  async create(createTransactionDto: CreateTransactionDto) {
+    const { category: categoryName } = createTransactionDto;
+    try {
+      const category = await this.categoriesService.findByName(categoryName);
+      console.log(category);
+    } catch (error) {
+      if (error.response.statusCode === 404) {
+        this.categoriesService.create({ name: categoryName });
+      } else {
+        //TODO
+        console.error('error in transaction creation');
+      }
+    }
+
     const transaction = new this.transactionModel(createTransactionDto);
     return transaction.save();
   }

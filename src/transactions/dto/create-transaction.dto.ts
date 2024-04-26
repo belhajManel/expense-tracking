@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import {
   IsArray,
   IsISO8601,
@@ -17,6 +18,7 @@ export class CreateTransactionDto {
   date: string;
   @IsString()
   @IsNotEmpty()
+  @Transform(({ value }) => value.toLowerCase())
   category: string;
   @IsString()
   @IsNotEmpty()
