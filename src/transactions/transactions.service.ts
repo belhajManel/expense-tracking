@@ -21,7 +21,10 @@ export class TransactionsService {
       console.log(category);
     } catch (error) {
       if (error.response.statusCode === 404) {
-        this.categoriesService.create({ name: categoryName });
+        this.categoriesService.create({
+          name: categoryName,
+          currentExpenses: createTransactionDto.amount,
+        });
       } else {
         //TODO
         console.error('error in transaction creation');
@@ -114,5 +117,30 @@ export class TransactionsService {
   async remove(id: string) {
     const transaction = await this.findOne(id);
     return transaction.deleteOne();
+  }
+
+  async getExpensesPerCategory(paginationQuery: PaginationQueryDto) {
+    const { startDate, endDate } = paginationQuery;
+    const startDateObj = startDate ? new Date(startDate) : undefined;
+    const endDateObj = endDate ? new Date(endDate) : undefined;
+    const pipeline: any = [
+      {
+        $match:
+          startDateObj && endDateObj
+            ? {
+                date: {
+                  $gte: startDateObj,
+                  $lte: endDateObj,
+                },
+              }
+            : {},
+      },
+      { $match: { amount: { $gt: 0 } } },
+      { $group: { _id: '$category', totalExpenses: { $sum: '$amount' } } },
+      { $sort: { totalExpenses: -1 } },
+    ];
+
+    const results = await this.transactionModel.aggregate(pipeline);
+    return results;
   }
 }

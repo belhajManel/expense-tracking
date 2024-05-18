@@ -1,9 +1,11 @@
 import { Transform } from 'class-transformer';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsPositive, IsString } from 'class-validator';
 
 export class CreateCategoryDto {
   @IsNotEmpty()
   @IsString()
   @Transform(({ value }) => value.toLowerCase())
   name: string;
+  @IsPositive()
+  currentExpenses: number;
 }

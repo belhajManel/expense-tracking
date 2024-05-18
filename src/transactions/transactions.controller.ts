@@ -22,6 +22,11 @@ export class TransactionsController {
     return this.transactionsService.create(createTransactionDto);
   }
 
+  @Get('stats')
+  getExpensesStats(@Query() paginationQuery: PaginationQueryDto) {
+    return this.transactionsService.getExpensesPerCategory(paginationQuery);
+  }
+
   @Get()
   findAll(@Query() paginationQuery: PaginationQueryDto) {
     return this.transactionsService.findAll(paginationQuery);

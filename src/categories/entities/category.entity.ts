@@ -8,6 +8,10 @@ export class Category {
   // userId: User;
   @Prop({ required: true })
   name: string;
+  @Prop({ default: 0 })
+  budgetLimit: number;
+  @Prop({ default: 0 })
+  currentExpenses: number;
 }
 
 export const CategorySchema = SchemaFactory.createForClass(Category);
