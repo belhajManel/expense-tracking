@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -7,6 +11,7 @@ import { Model } from 'mongoose';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto/pagination-query.dto';
 import { CategoriesService } from 'src/categories/categories.service';
 
+import * as csvParser from 'csvtojson';
 @Injectable()
 export class TransactionsService {
   constructor(
@@ -16,9 +21,9 @@ export class TransactionsService {
 
   async create(createTransactionDto: CreateTransactionDto) {
     const { category: categoryName } = createTransactionDto;
+
     try {
       const category = await this.categoriesService.findByName(categoryName);
-      console.log(category);
     } catch (error) {
       if (error.response.statusCode === 404) {
         this.categoriesService.create({
@@ -28,6 +33,7 @@ export class TransactionsService {
       } else {
         //TODO
         console.error('error in transaction creation');
+        throw new BadRequestException('Transaction cant be created');
       }
     }
 
@@ -142,5 +148,38 @@ export class TransactionsService {
 
     const results = await this.transactionModel.aggregate(pipeline);
     return results;
+  }
+
+  async convertCsvToJson(csvData: string) {
+    try {
+      const jsonObj = await csvParser().fromString(csvData);
+      return jsonObj;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async uploadTransaction(data: string) {
+    try {
+      const uploadedTransactionsArr = await this.convertCsvToJson(data);
+      const cleanedTransactionsArr: Array<any> = uploadedTransactionsArr.reduce(
+        (acc, occ) => {
+          const tags: Array<string> = occ.tags.split(',');
+          const cleanedTags = tags.map((tag) => tag.trim());
+          acc.push({
+            ...occ,
+            tags: cleanedTags,
+          });
+          return acc;
+        },
+        [],
+      );
+      for (let index = 0; index < cleanedTransactionsArr.length; index++) {
+        await this.create(cleanedTransactionsArr[index]);
+      }
+    } catch (error) {
+      console.log(error);
+
+      throw new BadRequestException('Upload failed');
+    }
   }
 }
