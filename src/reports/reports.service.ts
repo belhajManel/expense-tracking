@@ -1,26 +1,42 @@
 import { Injectable } from '@nestjs/common';
-import { CreateReportDto } from './dto/create-report.dto';
-import { UpdateReportDto } from './dto/update-report.dto';
+import * as PDFDocument from 'pdfkit';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto/pagination-query.dto';
+import { TransactionsService } from 'src/transactions/transactions.service';
 
 @Injectable()
 export class ReportsService {
-  create(createReportDto: CreateReportDto) {
-    return 'This action adds a new report';
-  }
+  constructor(private readonly transactionsService: TransactionsService) {}
+  async generatePdf(paginationQuery: PaginationQueryDto): Promise<Buffer> {
+    const transactionStats =
+      await this.transactionsService.getExpensesPerCategory(paginationQuery);
+    const pdfBuffer: Buffer = await new Promise((resolve) => {
+      const doc = new PDFDocument({
+        size: 'A4',
+        margin: 50,
+      });
 
-  findAll() {
-    return `This action returns all reports`;
-  }
+      doc.fontSize(12).text('Category', 50, 30);
+      doc.fontSize(12).text('Total Expenses', 250, 30);
+      transactionStats.forEach((category) => {
+        const totalExpenses = category.totalExpenses;
 
-  findOne(id: number) {
-    return `This action returns a #${id} report`;
-  }
+        doc.fontSize(12).text(category._id, 50, 60 + category._id.length * 15);
 
-  update(id: number, updateReportDto: UpdateReportDto) {
-    return `This action updates a #${id} report`;
-  }
+        doc
+          .fontSize(12)
+          .text(totalExpenses.toFixed(2), 250, 60 + category._id.length * 15);
 
-  remove(id: number) {
-    return `This action removes a #${id} report`;
+        doc.moveDown(20);
+      });
+      doc.end();
+      const buffers = [];
+      doc.on('data', buffers.push.bind(buffers));
+      doc.on('end', () => {
+        const pdfBuffer = Buffer.concat(buffers);
+        resolve(pdfBuffer);
+      });
+    });
+
+    return pdfBuffer;
   }
 }

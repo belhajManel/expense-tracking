@@ -23,7 +23,7 @@ export class TransactionsService {
     const { category: categoryName } = createTransactionDto;
 
     try {
-      const category = await this.categoriesService.findByName(categoryName);
+      await this.categoriesService.findByName(categoryName);
     } catch (error) {
       if (error.response.statusCode === 404) {
         this.categoriesService.create({
