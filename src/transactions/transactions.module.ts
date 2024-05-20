@@ -17,6 +17,6 @@ import { CategoriesModule } from 'src/categories/categories.module';
   ],
   controllers: [TransactionsController],
   providers: [TransactionsService],
-  exports: [TransactionsService],
+  exports: [MongooseModule,TransactionsService],
 })
 export class TransactionsModule {}

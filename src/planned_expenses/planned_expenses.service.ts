@@ -28,7 +28,7 @@ export class PlannedExpensesService {
     return this.plannedExpenseModel.findById(id).exec();
   }
 
-  update(id: string, updatePlannedExpenseDto: CreatePlannedExpenseDto): Promise<PlannedExpense> {
+  update(id: string, updatePlannedExpenseDto: UpdatePlannedExpenseDto): Promise<PlannedExpense> {
     return this.plannedExpenseModel.findByIdAndUpdate(id, updatePlannedExpenseDto, { new: true }).exec();
   }
 

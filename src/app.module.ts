@@ -12,7 +12,8 @@ import { PlannedExpensesModule } from './planned_expenses/planned_expenses.modul
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/expense-tracking'),
+    //MongooseModule.forRoot('mongodb://localhost:27017/expense-tracking'),
+    MongooseModule.forRoot('mongodb+srv://oussama:oussama123@cluster0.6ybou7k.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'),
     UsersModule,
     TransactionsModule,
     CategoriesModule,

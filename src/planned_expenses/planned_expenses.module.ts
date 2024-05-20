@@ -10,5 +10,6 @@ import { PlannedExpense, PlannedExpenseSchema } from './entities/planned_expense
   imports: [
     MongooseModule.forFeature([{ name: PlannedExpense.name, schema: PlannedExpenseSchema }]),
   ],
+  exports: [MongooseModule,PlannedExpensesService],
 })
 export class PlannedExpensesModule {}

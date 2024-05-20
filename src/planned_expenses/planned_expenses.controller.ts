@@ -19,12 +19,12 @@ export class PlannedExpensesController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.plannedExpensesService.findOne(+id);
+    return this.plannedExpensesService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePlannedExpenseDto: UpdatePlannedExpenseDto) {
-    return this.plannedExpensesService.update(+id, updatePlannedExpenseDto);
+    return this.plannedExpensesService.update(id, updatePlannedExpenseDto);
   }
 
   @Delete(':id')
