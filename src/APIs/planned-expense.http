@@ -1,4 +1,5 @@
 GET http://localhost:3000/planned-expenses
+ 
 
 ###
 
@@ -6,8 +7,8 @@ POST http://localhost:3000/planned-expenses
 Content-Type: application/json
 
 {
-  "amount": 155.00,
+  "amount": 150.00,
   "date": "2024-06-15T00:00:00.000Z",
-  "category": "664b45fcdb719c7d6790f94d",
+  "category": "664b462ddb719c7d6790f953",
   "description": "Monthly grocery shopping"
 }
