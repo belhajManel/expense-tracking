@@ -3,6 +3,8 @@ import { CategoriesService } from './categories.service';
 import { CategoriesController } from './categories.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Category, CategorySchema } from './entities/category.entity';
+import { IamModule } from 'src/iam/iam.module';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -14,7 +16,7 @@ import { Category, CategorySchema } from './entities/category.entity';
     ]),
   ],
   controllers: [CategoriesController],
-  providers: [CategoriesService],
+  providers: [CategoriesService, JwtService],
   exports: [CategoriesService],
 })
 export class CategoriesModule {}
