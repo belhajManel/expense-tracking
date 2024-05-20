@@ -5,11 +5,13 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { TransactionsModule } from 'src/transactions/transactions.module';
 import { PlannedExpensesModule } from 'src/planned_expenses/planned_expenses.module';
 import { BudgetSchema } from './entities/budget.entity';
+import { IamModule } from 'src/iam/iam.module';
+import { JwtService } from '@nestjs/jwt';
 import { NotificationModule } from 'src/notification/notification.module';
 
 @Module({
   controllers: [BudgetsController],
-  providers: [BudgetsService],
+  providers: [BudgetsService, JwtService],
   imports: [
     MongooseModule.forFeature([{ name: 'Budget', schema: BudgetSchema }]), // Add your BudgetSchema if needed
     TransactionsModule,
