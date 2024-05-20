@@ -1,0 +1,16 @@
+### Create a Budget
+POST http://localhost:3000/budgets
+Content-Type: application/json
+
+{
+  "month": 5,
+  "year": 2024,
+  "category": "664a9bc8e3b9250bdb2cebac",
+  "amount": 500.00
+}
+
+### Retrieve All Budgets
+GET http://localhost:3000/budgets
+
+### Calculate Monthly Budget
+GET http://localhost:3000/budgets/monthly?month=5&year=2024
