@@ -28,7 +28,7 @@ export class TransactionsService {
       if (error.response.statusCode === 404) {
         this.categoriesService.create({
           name: categoryName,
-          currentExpenses: createTransactionDto.amount,
+          budgetLimit: createTransactionDto.amount,
         });
       } else {
         //TODO

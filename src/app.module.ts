@@ -9,6 +9,8 @@ import { BudgetsModule } from './budgets/budgets.module';
 import { ReportsModule } from './reports/reports.module';
 import { PlannedExpensesService } from './planned_expenses/planned_expenses.service';
 import { PlannedExpensesModule } from './planned_expenses/planned_expenses.module';
+import { NotificationService } from './notification/notification.service';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
@@ -20,8 +22,9 @@ import { PlannedExpensesModule } from './planned_expenses/planned_expenses.modul
     BudgetsModule,
     ReportsModule,
     PlannedExpensesModule,
+    NotificationModule,
   ],
   controllers: [AppController],
-  providers: [AppService, PlannedExpensesService],
+  providers: [AppService, PlannedExpensesService, NotificationService],
 })
 export class AppModule {}

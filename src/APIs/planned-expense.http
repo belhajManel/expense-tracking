@@ -8,6 +8,6 @@ Content-Type: application/json
 {
   "amount": 155.00,
   "date": "2024-06-15T00:00:00.000Z",
-  "category": "Food",
+  "category": "664b45fcdb719c7d6790f94d",
   "description": "Monthly grocery shopping"
 }

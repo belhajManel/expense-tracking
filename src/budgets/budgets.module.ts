@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { TransactionsModule } from 'src/transactions/transactions.module';
 import { PlannedExpensesModule } from 'src/planned_expenses/planned_expenses.module';
 import { BudgetSchema } from './entities/budget.entity';
+import { NotificationModule } from 'src/notification/notification.module';
 
 @Module({
   controllers: [BudgetsController],
@@ -13,6 +14,7 @@ import { BudgetSchema } from './entities/budget.entity';
     MongooseModule.forFeature([{ name: 'Budget', schema: BudgetSchema }]), // Add your BudgetSchema if needed
     TransactionsModule,
     PlannedExpensesModule,
+    NotificationModule,
   ],
 })
 export class BudgetsModule {}
