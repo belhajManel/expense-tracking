@@ -24,59 +24,61 @@ export class BudgetsService {
   findAll(): Promise<Budget[]> {
     return this.budgetModel.find().populate('category').exec();
   }
-  //check this later 
-  // async calculateMonthlyBudget(month: number, year: number): Promise<any> {
-  //   const transactions = await this.transactionModel
-  //     .find({
-  //       date: {
-  //         $gte: new Date(year, month - 1, 1),
-  //         $lte: new Date(year, month, 0),
-  //       },
-  //     })
-  //     .exec();
+  //check this later
+  async calculateMonthlyBudget(month: number, year: number): Promise<any> {
+    const transactions = await this.transactionModel
+      .find({
+        date: {
+          $gte: new Date(year, month - 1, 1),
+          $lte: new Date(year, month, 0),
+        },
+      })
+      .exec();
 
-  //   const plannedExpenses = await this.plannedExpenseModel
-  //     .find({
-  //       date: {
-  //         $gte: new Date(year, month - 1, 1),
-  //         $lte: new Date(year, month, 0),
-  //       },
-  //     })
-  //     .exec();
+    const plannedExpenses = await this.plannedExpenseModel
+      .find({
+        date: {
+          $gte: new Date(year, month - 1, 1),
+          $lte: new Date(year, month, 0),
+        },
+      })
+      .exec();
 
-  //   const totalSpent = transactions.reduce(
-  //     (acc, transaction) => acc + transaction.amount,
-  //     0,
-  //   );
-  //   const totalPlanned = plannedExpenses.reduce(
-  //     (acc, expense) => acc + expense.amount,
-  //     0,
-  //   );
+    const totalSpent = transactions.reduce(
+      (acc, transaction) => acc + transaction.amount,
+      0,
+    );
+    const totalPlanned = plannedExpenses.reduce(
+      (acc, expense) => acc + expense.amount,
+      0,
+    );
 
-  //   const budgets = await this.findAll();
-  //   const alerts = [];
+    const budgets = await this.findAll();
+    const alerts = [];
 
-  //   for (const budget of budgets) {
-  //     const categorySpent = transactions
-  //       .filter((transaction) =>
-  //         transaction.category.equals(budget.category._id),
-  //       )
-  //       .reduce((acc, transaction) => acc + transaction.amount, 0);
+    for (const budget of budgets) {
+      const categorySpent = transactions
+        .filter(
+          (transaction) =>
+            transaction.category.toString() === budget.category._id.toString(),
+        )
+        .reduce((acc, transaction) => acc + transaction.amount, 0);
 
-  //     if (categorySpent > budget.amount) {
-  //       alerts.push(
-  //         `Alert: Spending in category ${budget.category.name} has exceeded the budget.`,
-  //       );
-  //     }
-  //   }
+      if (categorySpent > budget.amount) {
+        alerts.push(
+          `Alert: Spending in category ${budget.category._id} has exceeded the budget.`,
+        );
+      }
+    }
 
-  //   return {
-  //     totalSpent,
-  //     totalPlanned,
-  //     totalBudget: totalSpent + totalPlanned,
-  //     alerts,
-  //   };
-  // }
+    return {
+      totalSpent,
+      totalPlanned,
+      totalBudget: totalSpent + totalPlanned,
+      alerts,
+    };
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} budget`;
   }
