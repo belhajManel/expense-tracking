@@ -20,10 +20,10 @@ import { JwtService } from '@nestjs/jwt';
       isGlobal: true,
       load: [jwtConfig],
     }),
-    //MongooseModule.forRoot('mongodb://localhost:27017/expense-tracking'),
-    MongooseModule.forRoot(
+    MongooseModule.forRoot('mongodb://localhost:27017/expense-tracking'),
+    /*MongooseModule.forRoot(
       'mongodb+srv://mohamedghayth12:ghaythafli@nest-project.im7feid.mongodb.net/?retryWrites=true&w=majority&appName=nest-project',
-    ),
+    ),*/
     UsersModule,
     TransactionsModule,
     CategoriesModule,
