@@ -6,6 +6,7 @@ import { Transaction } from 'src/transactions/entities/transaction.entity';
 import { PlannedExpense } from 'src/planned_expenses/entities/planned_expense.entity';
 import { Model } from 'mongoose';
 import { Budget } from './entities/budget.entity';
+import { NotificationService } from 'src/notification/notification.service';
 
 @Injectable()
 export class BudgetsService {
@@ -14,6 +15,7 @@ export class BudgetsService {
     @InjectModel(Transaction.name) private transactionModel: Model<Transaction>,
     @InjectModel(PlannedExpense.name)
     private plannedExpenseModel: Model<PlannedExpense>,
+    private notificationService: NotificationService,
   ) {}
 
   create(createBudgetDto: CreateBudgetDto): Promise<Budget> {
@@ -65,9 +67,9 @@ export class BudgetsService {
         .reduce((acc, transaction) => acc + transaction.amount, 0);
 
       if (categorySpent > budget.amount) {
-        alerts.push(
-          `Alert: Spending in category ${budget.category._id} has exceeded the budget.`,
-        );
+        const alertMessage = `Alert: Spending in category ${budget.category.id} has exceeded the budget.`;
+        alerts.push(alertMessage);
+        this.notificationService.sendNotification(alertMessage);
       }
     }
 
@@ -78,7 +80,7 @@ export class BudgetsService {
       alerts,
     };
   }
-
+  
   findOne(id: number) {
     return `This action returns a #${id} budget`;
   }

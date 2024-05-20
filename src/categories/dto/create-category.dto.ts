@@ -7,5 +7,5 @@ export class CreateCategoryDto {
   @Transform(({ value }) => value.toLowerCase())
   name: string;
   @IsPositive()
-  currentExpenses: number;
+  budgetLimit: number;
 }

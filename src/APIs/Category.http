@@ -1,16 +1,16 @@
+### Retrieve All Categories
+GET http://localhost:3000/categories
+
 ### Create a Category
 POST http://localhost:3000/categories
 Content-Type: application/json
 
 {
 
-  "name": "Groceries",
-  "budgetLimit":"0",
-  "currentExpenses":"1"
+  "name": "Personal Care",
+  "budgetLimit":"500",
+  "currentExpenses":""
  
 
 }
-
-### Retrieve All Categories
-GET http://localhost:3000/categories
 

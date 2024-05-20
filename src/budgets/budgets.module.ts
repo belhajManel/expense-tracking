@@ -7,6 +7,7 @@ import { PlannedExpensesModule } from 'src/planned_expenses/planned_expenses.mod
 import { BudgetSchema } from './entities/budget.entity';
 import { IamModule } from 'src/iam/iam.module';
 import { JwtService } from '@nestjs/jwt';
+import { NotificationModule } from 'src/notification/notification.module';
 
 @Module({
   controllers: [BudgetsController],
@@ -15,6 +16,7 @@ import { JwtService } from '@nestjs/jwt';
     MongooseModule.forFeature([{ name: 'Budget', schema: BudgetSchema }]), // Add your BudgetSchema if needed
     TransactionsModule,
     PlannedExpensesModule,
+    NotificationModule,
   ],
 })
 export class BudgetsModule {}

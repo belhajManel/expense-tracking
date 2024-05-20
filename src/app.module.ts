@@ -13,6 +13,8 @@ import { IamModule } from './iam/iam.module';
 import { ConfigModule } from '@nestjs/config';
 import jwtConfig from './iam/config/jwt.config';
 import { JwtService } from '@nestjs/jwt';
+import { NotificationService } from './notification/notification.service';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
@@ -34,5 +36,9 @@ import { JwtService } from '@nestjs/jwt';
   ],
   controllers: [AppController],
   providers: [AppService, PlannedExpensesService, JwtService],
+    NotificationModule,
+  ],
+  controllers: [AppController],
+  providers: [AppService, PlannedExpensesService, NotificationService],
 })
 export class AppModule {}
