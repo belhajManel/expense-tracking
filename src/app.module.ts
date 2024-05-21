@@ -26,6 +26,7 @@ import { PlannedExpensesService } from './planned_expenses/planned_expenses.serv
     MongooseModule.forRoot(
       'mongodb+srv://mohamedghayth12:ghaythafli@nest-project.im7feid.mongodb.net/?retryWrites=true&w=majority&appName=nest-project',
     ),
+
     UsersModule,
     TransactionsModule,
     CategoriesModule,
@@ -33,14 +34,14 @@ import { PlannedExpensesService } from './planned_expenses/planned_expenses.serv
     ReportsModule,
     PlannedExpensesModule,
     IamModule,
-    NotificationModule,
+
   ],
   controllers: [AppController],
   providers: [
     AppService,
     PlannedExpensesService,
     JwtService,
-    NotificationService,
+    NotificationModule,
   ],
 })
 export class AppModule {}
