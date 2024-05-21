@@ -1,0 +1,28 @@
+###sign up
+POST http://localhost:3000/authentication/sign-up 
+Content-Type: application/json
+
+{
+"email": "test@gmail.com",
+"password": "7894456",
+"username": "user "
+}
+ 
+
+###
+POST http://localhost:3000/authentication/sign-in
+Content-Type: application/json
+
+{
+    "email": "test@gmail.com",
+    "password": "7894456"
+}
+
+
+###refresh token
+POST http://localhost:3000/authentication/refresh-tokens
+Content-Type: application/json
+
+{
+    "refreshToken": ""
+}

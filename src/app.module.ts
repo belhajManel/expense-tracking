@@ -22,10 +22,11 @@ import { NotificationModule } from './notification/notification.module';
       isGlobal: true,
       load: [jwtConfig],
     }),
-    MongooseModule.forRoot('mongodb://localhost:27017/expense-tracking'),
-    /*MongooseModule.forRoot(
-      'mongodb+srv://mohamedghayth12:ghaythafli@nest-project.im7feid.mongodb.net/?retryWrites=true&w=majority&appName=nest-project',
-    ),*/
+    // MongooseModule.forRoot('mongodb://localhost:27017/expense-tracking'),
+    MongooseModule.forRoot(
+      'mongodb+srv://oussama:oussama123@cluster0.6ybou7k.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
+    ),
+
     UsersModule,
     TransactionsModule,
     CategoriesModule,
@@ -35,10 +36,11 @@ import { NotificationModule } from './notification/notification.module';
     IamModule,
   ],
   controllers: [AppController],
-  providers: [AppService, PlannedExpensesService, JwtService],
+  providers: [
+    AppService,
+    PlannedExpensesService,
+    JwtService,
     NotificationModule,
   ],
-  controllers: [AppController],
-  providers: [AppService, PlannedExpensesService, NotificationService],
 })
 export class AppModule {}
